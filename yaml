@@ -1,0 +1,66 @@
+
+---
+
+## 🔌 Circuit Diagram
+
+| Component        | Connection to ESP32 |
+|------------------|---------------------|
+| DS3231 RTC       | SDA → GPIO21, SCL → GPIO22 |
+| SSD1306 OLED     | SDA → GPIO21, SCL → GPIO22 |
+| Power Supply     | 3.3V / GND           |
+
+⚠️ **Use appropriate pull-up resistors on SDA/SCL if necessary**
+
+---
+
+## 🔧 How to Use
+
+1. 📥 **Clone this repository**
+    ```bash
+    git clone https://github.com/your-username/aws-esp32-clock.git
+    ```
+
+2. 🛠 **Open the folder in VS Code with PlatformIO installed**
+
+3. 🔑 **Configure Wi-Fi and AWS EC2 server URL** in `main.cpp`:
+    ```cpp
+    const char* ssid = "YOUR_WIFI_SSID";
+    const char* password = "YOUR_WIFI_PASSWORD";
+    const char* ec2_server = "http://your-ec2-instance-ip/time";
+    ```
+
+4. 🔌 **Connect your ESP32, DS3231, and OLED display as per the circuit**
+
+5. 🚀 **Build and upload the firmware**
+    ```bash
+    platformio run --target upload
+    ```
+
+6. 🕒 **Enjoy a beautifully synced and animated real-time clock!**
+
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="images/clock_display.jpg" alt="Clock Display" width="400"/>
+</p>
+
+---
+
+## 📡 Flask API on AWS EC2 (Example)
+
+```python
+from flask import Flask
+from datetime import datetime
+import pytz
+
+app = Flask(__name__)
+
+@app.route('/time', methods=['GET'])
+def get_time():
+    now = datetime.now(pytz.timezone('Asia/Kolkata'))
+    return now.strftime('%H:%M:%S %d-%m-%Y')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80)
