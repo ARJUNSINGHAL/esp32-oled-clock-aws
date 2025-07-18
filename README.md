@@ -99,7 +99,3 @@ platformio run --target upload
 - SSD1306 OLED (Adafruit libraries)
 - AWS Lambda + API Gateway
 - Python (serverless code)
-
-## 📜 License
-
-MIT
